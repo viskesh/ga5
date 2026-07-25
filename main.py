@@ -14,7 +14,7 @@ from typing import List, Dict, Any, Optional
 from collections import deque
 
 # Import Q8 - Q11 routers
-from q8 import router as q8_router
+from q8 import router as q8_router, RedteamRequest, check_redteam
 from q9 import router as q9_router
 from q10 import router as q10_router
 from q11 import router as q11_router
@@ -647,7 +647,7 @@ LXD_SANDBOX_END token={q7["token"]}
 # Attach Q8, Q9, Q10, Q11 Routers
 # ==============================================================================
 
-app.include_router(q8_router)
+app.include_router(q8_router, prefix="/q8")
 app.include_router(q9_router)
 app.include_router(q10_router)
 app.include_router(q11_router)
@@ -672,7 +672,7 @@ async def check_router(request: Request):
     elif "arguments" in body:
         try:
             req = RedteamRequest(**body)
-            return check_redteam(req, request)
+            return await check_redteam(req, request)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Q8 validation error: {e}")
             
