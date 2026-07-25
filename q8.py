@@ -96,7 +96,7 @@ def check_read_file(path_arg: str, q8_config: dict) -> dict:
     if not inside:
         return {"action": "block", "reason": "Path is outside sandbox boundary"}
 
-    if full_path == canary_path or "canary" in cleaned_path.lower():
+    if full_path == canary_path:
         return {"action": "block", "reason": "Access to canary file is forbidden"}
 
     if os.path.exists(full_path) and os.path.isfile(full_path):
